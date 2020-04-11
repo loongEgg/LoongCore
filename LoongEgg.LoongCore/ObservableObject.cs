@@ -1,29 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel;
 
 namespace LoongEgg.LoongCore
 {
-	/*
+    /*
 	| 
 	| WeChat: InnerGeek
 	| LoongEgg@163.com 
 	|
 	*/
-    public class Class1
+    public  class ObservableObject : INotifyPropertyChanged
     {
-		 /*--------------------------------------- Fields ----------------------------------------*/
+        /*--------------------------------------- Fields ----------------------------------------*/
 
         /*------------------------------------- Properties --------------------------------------*/
 
         /*-------------------------------- Dependency Properties --------------------------------*/
-        
+
         /*------------------------------------- Constructor -------------------------------------*/
-         
+
         /*------------------------------------ Public Methods -----------------------------------*/
 
         /*----------------------------------- Private Methods -----------------------------------*/
+        public event PropertyChangedEventHandler PropertyChanged;
+
+
     }
 }
