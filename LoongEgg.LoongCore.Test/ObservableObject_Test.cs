@@ -18,6 +18,7 @@ namespace LoongEgg.LoongCore.Test
         [TestInitialize]
         public void EnabledLogger() {
             LoggerManager.Enable(LoggerType.File, LoggerLevel.Debug);
+            LoggerManager.WriteDebug("Test initialized ok ....");
         }
         
         /// <summary>
@@ -64,12 +65,38 @@ namespace LoongEgg.LoongCore.Test
             sample.PropertyChanged += (s, args) =>
                                         {
                                             isPropertyChangeRaised = true;
-                                            LoggerManager.WriteDebug($"PropertyName:{args.PropertyName}");
+                                            LoggerManager.WriteDebug(
+                                                $"Event is raised by PropertyName={args.PropertyName}, value={sample.PropertySample}");
                                         };
 
             // 改变属性
             sample.PropertySample = 666;
             Assert.IsTrue(isPropertyChangeRaised);
+            Assert.AreEqual(sample.PropertySample, 666);
+        }
+
+        // TODO: 14-1 当“新值”等于当前值时不引发通知
+        /// <summary>
+        /// 当“新值”等于当前值时不引发通知
+        /// </summary>
+        public void WhenPropertyEqualsOldValue_NotRaised() {
+            bool isPropertyChangeRaised = false;// 事件引发标记
+
+            // 初始化一个检测样本
+            // 注意这里赋了一个初始值
+            ObservableObjectSample sample = new ObservableObjectSample { PropertySample = 666};
+
+            // 注册属性改变时的处理事件
+            sample.PropertyChanged += (s, args) =>
+                                        {
+                                            isPropertyChangeRaised = true;
+                                            LoggerManager.WriteDebug( 
+                                                $"Event is raised by PropertyName={args.PropertyName}, value={sample.PropertySample}");
+                                        };
+
+            // 改变属性
+            sample.PropertySample = 666;
+            Assert.IsFalse(isPropertyChangeRaised); // 注意这里断言是Flase
             Assert.AreEqual(sample.PropertySample, 666);
         }
 

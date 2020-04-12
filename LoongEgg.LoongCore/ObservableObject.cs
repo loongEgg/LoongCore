@@ -55,11 +55,11 @@ namespace LoongEgg.LoongCore
         ///     <param name="propertyName">[不要设置]目标属性的名称，自动推断</param>
         /// <returns>[true]目标属性已被更新？</returns>
         protected bool SetProperty<T>
-            (
-                    ref T target, // 目标属性
-                    T value,      // “新”值
-                    [CallerMemberName] string propertyName = null
-            ) {
+        (
+                ref T target, // 目标属性
+                T value,      // “新”值
+                [CallerMemberName] string propertyName = null
+        ) {
             if (EqualityComparer<T>.Default.Equals(target, value))
                 return false;
 

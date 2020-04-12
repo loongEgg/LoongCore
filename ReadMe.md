@@ -179,3 +179,151 @@ namespace LoongEgg.LoongCore.Test
 }
 
 ```
+
+## 14.在正确的时机引发通知
+
+1. 属性不真正改变的时候不要引发事件
+```c#
+        // TODO: 14-1 当“新值”等于当前值时不引发通知
+        /// <summary>
+        /// 当“新值”等于当前值时不引发通知
+        /// </summary>
+        public void WhenPropertyEqualsOldValue_NotRaised() {
+            bool isPropertyChangeRaised = false;// 事件引发标记
+
+            // 初始化一个检测样本
+            // 注意这里赋了一个初始值
+            ObservableObjectSample sample = new ObservableObjectSample { PropertySample = 666};
+
+            // 注册属性改变时的处理事件
+            sample.PropertyChanged += (s, args) =>
+                                        {
+                                            isPropertyChangeRaised = true;
+                                            LoggerManager.WriteDebug( 
+                                                $"Event is raised by PropertyName={args.PropertyName}, value={sample.PropertySample}");
+                                        };
+
+            // 改变属性
+            sample.PropertySample = 666;
+            Assert.IsFalse(isPropertyChangeRaised); // 注意这里断言是Flase
+            Assert.AreEqual(sample.PropertySample, 666);
+        }
+
+```
+2. 创建ViewModelBase.cs
+```c#
+    // TODO: 14-2 设计ViewModel的基类
+    /// <summary>
+    /// ViewModel们继承于此
+    /// </summary>
+    public abstract class ViewModelBase : ObservableObject { }
+```
+3. 依赖于它人的属性改变事件，由被依赖者引发
+
+![14.People](Figures/14.People.png)  
+在```ViewModelBase_Test.cs```增加测试类
+```c#
+public class People: ViewModelBase
+        {
+
+            public string FamilyName {
+                get => _FamilyName;
+                set {
+                    if (SetProperty(ref _FamilyName, value))
+                        RaisePropertyChanged("FullName");
+                }
+            }
+            private string _FamilyName = "[NotDefined]";
+
+
+            public string LastName {
+                get => _LastName;
+                set {
+                    if (SetProperty(ref _LastName, value))
+                        RaisePropertyChanged(nameof(FullName));
+                }
+            }
+            private string _LastName = "[Unknown]";
+
+            public string FullName => $"{FamilyName} - {LastName}";
+        }
+```
+4.完整的单元测试
+```c#
+using System;
+using LoongEgg.LoongLogger;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+namespace LoongEgg.LoongCore.Test
+{
+    [TestClass]
+    public class ViewModelBase_Test
+    {   /// <summary>
+        /// 初始化测试，会在所有测试方法前调用
+        /// </summary>
+        /// <remarks>
+        ///     LoongEgg.LoongLogger是我的一个开源项目，你可以不使用
+        /// </remarks>
+        [TestInitialize]
+        public void EnabledLogger() {
+            LoggerManager.Enable(LoggerType.File, LoggerLevel.Debug);
+            LoggerManager.WriteDebug("Test initialized ok ....");
+        }
+        
+        // TODO: 14-3设计测试类People
+        public class People: ViewModelBase
+        {
+
+            public string FamilyName {
+                get => _FamilyName;
+                set {
+                    if (SetProperty(ref _FamilyName, value))
+                        RaisePropertyChanged("FullName");
+                }
+            }
+            private string _FamilyName = "[NotDefined]";
+
+
+            public string LastName {
+                get => _LastName;
+                set {
+                    if (SetProperty(ref _LastName, value))
+                        RaisePropertyChanged(nameof(FullName));
+                }
+            }
+            private string _LastName = "[Unknown]";
+
+            public string FullName => $"{FamilyName} - {LastName}";
+        }
+
+        // TODO: 14-4 检查可以强制引发属性改变事件
+        [TestMethod]
+        public void CanRaisedByOtherProperty() {
+
+            People people = new People();
+            bool isRaised = false;
+            people.PropertyChanged += (s, e) =>
+                                        {
+                                            isRaised = true;
+                                            if(e.PropertyName == "FullName") {
+                                                LoongLogger.LoggerManager.WriteDebug($"FullName is changed to -> {people.FullName}");
+                                            }
+                                        };
+
+            people.FamilyName = "Alpha";
+            people.LastName = "Jet";
+            Assert.IsTrue(isRaised);
+        }
+         
+        /// <summary>
+        /// 在所有测试完成后调用，注销LoggerManager
+        /// </summary>
+        [TestCleanup]
+        public void DisableLogger() {
+            LoggerManager.WriteDebug("LoggerManager is clean up...");
+            LoggerManager.Disable();
+        }
+    }
+}
+
+```
