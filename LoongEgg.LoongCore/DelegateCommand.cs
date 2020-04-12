@@ -1,10 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Input;
 
 /* 
  | 个人微信：InnerGeeker
  | 联系邮箱：LoongEgg@163.com 
- | 创建时间：2020/4/12 18:28:22
+ | 创建时间：2020/4/12 20:33:48
  | 主要用途：
  | 更改记录：
  |			 时间		版本		更改
@@ -24,8 +28,9 @@ namespace LoongEgg.LoongCore
         /// </summary>
         private readonly Predicate<object> _CanExecute;
 
-        public bool CanExecuteCache { get; private set; } = true;
- 
+        /*-------------------------------------- Properties -------------------------------------*/
+        public event EventHandler CanExecuteChanged;
+         
         /*------------------------------------- Constructors ------------------------------------*/
         /// <summary>
         /// 主构造器
@@ -37,31 +42,8 @@ namespace LoongEgg.LoongCore
             _CanExecute = canExecute;
         }
 
-        /// <summary>
-        /// 构造器
-        /// </summary>
-        /// <param name="execute">干活的方法</param>
         public DelegateCommand(Action<object> execute) : this(execute, null) { }
-         
-        public event EventHandler CanExecuteChanged;
-
         /*------------------------------------ Public Methods -----------------------------------*/
-        /// <summary>
-        /// 检查是否可以执行命令
-        /// </summary>
-        /// <param name="parameter"></param>
-        /// <returns></returns>
-        public bool CanExecute(object parameter) {
-           bool canExecute = _CanExecute?.Invoke(parameter) ?? true;
-
-            if(canExecute != CanExecuteCache) {
-                CanExecuteCache = canExecute;
-                RaiseCanExecuteChanged();
-            }
-
-            return canExecute;
-        }
-
         /// <summary>
         /// 执行命令操作
         /// </summary>
@@ -69,8 +51,12 @@ namespace LoongEgg.LoongCore
         public void Execute(object parameter) => _Execute(parameter);
 
         /// <summary>
-        /// 引发可执行改变事件
+        /// 判断命令是否可以执行的操作
         /// </summary>
-        public void RaiseCanExecuteChanged() => CanExecuteChanged?.Invoke(this, EventArgs.Empty);
+        /// <param name="parameter"></param>
+        /// <returns></returns>
+        public bool CanExecute(object parameter) => _CanExecute?.Invoke(parameter) ?? true;
+
+        
     }
 }
