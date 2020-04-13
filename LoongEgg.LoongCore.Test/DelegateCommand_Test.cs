@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace LoongEgg.LoongCore.Test
 {
+    // TODO: 15-2 DelegateCommand的单元测试
     [TestClass]
     public class DelegateCommand_Test
     {

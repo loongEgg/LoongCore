@@ -680,3 +680,136 @@ namespace NoMVVM
 }
 
 ```
+
+## 18.第一个ViewModel简易计算器
+1. 计算器的ViewModel
+```c#
+using LoongEgg.LoongCore;
+using System.Windows.Controls;
+using System.Windows.Input;
+
+namespace LoongEgg.ViewModels
+{
+    // TODO: 18-1 计算器的ViewModel
+    /// <summary>
+    /// 计算器的ViewModel
+    /// </summary>
+    public class CalculatorViewModel: ViewModelBase
+    {
+        /*------------------------------------- Properties --------------------------------------*/        /// <summary>
+        /// 左侧操作数
+        /// </summary>
+        public int Left {
+            get => _Left;
+            set => SetProperty(ref _Left, value);
+        }
+        protected int _Left;
+         
+        /// <summary>
+        /// 右侧操作数
+        /// </summary>
+        public int Right {
+            get => _Right;
+            set => SetProperty(ref _Right, value);
+        }
+        protected int _Right;
+         
+        /// <summary>
+        /// 计算结果
+        /// </summary>
+        public int Answer {
+            get => _Answer;
+            set => SetProperty(ref _Answer, value);
+        }
+        protected int _Answer;
+
+        /// <summary>
+        /// 运算命令
+        /// </summary>
+        public ICommand OperationCommand { get; protected set; }
+
+        /*------------------------------------- Constructor -------------------------------------*/
+        /// <summary>
+        /// 默认构造器
+        /// </summary>
+        public CalculatorViewModel() {
+            OperationCommand = new DelegateCommand(Operation);
+        }
+
+        /*----------------------------------- Private Methods -----------------------------------*/ 
+        /// <summary>
+        /// 运算的具体执行方法
+        /// </summary>
+        /// <param name="opr"></param>
+        protected void Operation(object opr) {
+            var self = opr as Button;
+            switch (opr.ToString()) {
+                case "+": Answer = Left + Right; break;
+                case "-": Answer = Left - Right; break;
+                case "*": Answer = Left * Right; break;
+                case "/": Answer = Left / Right; break;
+            };
+        }
+ 
+    }
+}
+
+```
+2. CalculatorViewModel的单元测试
+```c#
+using System;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+namespace LoongEgg.LoongCore.Test
+{
+    // TODO: 15-2 DelegateCommand的单元测试
+    [TestClass]
+    public class DelegateCommand_Test
+    {
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void Constructor_ThrowExeceptionIfExecuteParameterIsNULL() {
+            var command = new DelegateCommand(null);
+        }
+
+        [TestMethod]
+        public void Execute_CanInvokes() {
+            bool invoked = false;
+
+            var command = new DelegateCommand(
+                                                   obj => { invoked = true; }
+                                             );
+            command.Execute(null);
+            Assert.IsTrue(invoked);
+        }
+
+        [TestMethod]
+        public void CanExecute_IsTrueByDefault() {
+            var command = new DelegateCommand(obj => { });
+
+           Assert.IsTrue(  command.CanExecute(null));
+        }
+
+        [TestMethod]
+        public void CanExecute_TruePredicate() {
+            var command = new DelegateCommand
+                (
+                    obj => { },
+                    obj =>  (int)obj == 666
+                );
+            Assert.IsTrue(command.CanExecute(666));
+        }
+
+        [TestMethod]
+        public void CanExecute_FalsePredicate() {
+            var command = new DelegateCommand
+                (
+                    obj => { },
+                    obj =>  (int)obj == 666
+                );
+            Assert.IsFalse(command.CanExecute(66));
+        }
+    }
+}
+
+```

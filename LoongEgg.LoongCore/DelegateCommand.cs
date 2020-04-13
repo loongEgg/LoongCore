@@ -15,7 +15,7 @@ using System.Windows.Input;
  */
 namespace LoongEgg.LoongCore
 {
-
+    // TODO: 15-1 ICommand的实现DelegateCommand
     public class DelegateCommand : ICommand
     {
         /*---------------------------------------- Fields ---------------------------------------*/
