@@ -48,6 +48,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CalculatorDesignModel.cs" />
     <Compile Include="CalculatorView.xaml.cs">
       <DependentUpon>CalculatorView.xaml</DependentUpon>
     </Compile>
@@ -78,6 +79,16 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LoongEgg.LoongCore\LoongEgg.LoongCore.csproj">
+      <Project>{2ecc96d5-5d84-40bf-b5e2-61932abc62f8}</Project>
+      <Name>LoongEgg.LoongCore</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LoongEgg.ViewModels\LoongEgg.ViewModels.csproj">
+      <Project>{9eb92fcb-f960-42f1-810f-f483b19fe3af}</Project>
+      <Name>LoongEgg.ViewModels</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

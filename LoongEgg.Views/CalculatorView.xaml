@@ -5,9 +5,11 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:LoongEgg.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="clr-namespace:LoongEgg.ViewModels;assembly=LoongEgg.ViewModels"
     Title="Calculator View - 1st MVVM Application"
     Width="800"
     Height="450"
+    d:DataContext="{x:Static local:CalculatorDesignModel.Instance}"
     FontSize="52"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
@@ -20,21 +22,27 @@
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
+        <!--  左侧的操作数  -->
         <TextBox
             Grid.Column="0"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Center"
-            Text="Left" />
-        <StackPanel VerticalAlignment="Center" Grid.Column="1">
+            Text="{Binding Left}" />
+
+        <!--  运算符们  -->
+        <StackPanel Grid.Column="1" VerticalAlignment="Center">
             <Button
                 Width="80"
                 Height="80"
                 Margin="5"
+                Command="{Binding OperationCommand}"
+                CommandParameter="{Binding RelativeSource}"
                 Content="+" />
             <Button
                 Width="80"
                 Height="80"
                 Margin="5"
+
                 Content="-" />
             <Button
                 Width="80"
@@ -47,16 +55,23 @@
                 Margin="5"
                 Content="/" />
         </StackPanel>
+
+        <!--  右侧操作数  -->
         <TextBox
             Grid.Column="2"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Center"
-            Text="Right" />
-        <Label VerticalAlignment="Center" Grid.Column="3" Content="="/>
+            Text="{Binding Right}" />
+        <Label
+            Grid.Column="3"
+            VerticalAlignment="Center"
+            Content="=" />
+
+        <!--  计算结果  -->
         <TextBox
             Grid.Column="4"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Center"
-            Text="Answer" />
+            Text="{Binding Answer}" />
     </Grid>
 </Window>

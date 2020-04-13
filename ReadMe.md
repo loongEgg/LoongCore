@@ -521,3 +521,38 @@ namespace LoongEgg.LoongCore.Test
 }
 
 ```
+## 16.我的MVVM项目结构与在控制台启动WPF
+### 1.我的项目结构
+- ```AppConsole```控制台程序，负责组装View和ViewModel 
+- ```LoongEgg.LoongCore```普通类库，MVVM核心框架，提供了ViewModel的基类
+- ```LoongEgg.LoongCore.Test```核心框架的单元测试项目
+- ```LoongEgg.ViewModels```普通类库，ViewModel们在这里设计，小项目也负责处理业务逻辑
+- ```LoongEgg.ViewModels.Test```ViewModel们的单元测试
+- ```LoongEgg.Views```自定义控件库，View们在这集设计  
+![16.Project Layout](Figures/16.ProjectLayout.png)
+
+### 2.在控制台启动WPF窗口
+- 须要的引用  
+![16.Reference](Figures/16.Reference.png)
+- Program.cs
+```c#
+using LoongEgg.ViewModels;
+using LoongEgg.Views;
+using System;
+using System.Windows;
+
+namespace AppConsole
+{
+    class Program
+    {
+        [STAThread]
+        static void Main(string[] args) {
+            //CalculatorViewModel viewModel = new CalculatorViewModel { Left = 111, Right = 222, Answer = 333 };
+            CalculatorView view = new CalculatorView { DataContext = viewModel };
+            Application app = new Application();
+            app.Run(view);
+        }
+    }
+}
+
+```

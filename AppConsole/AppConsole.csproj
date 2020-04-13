@@ -54,6 +54,14 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\LoongEgg.LoongCore\LoongEgg.LoongCore.csproj">
+      <Project>{2ecc96d5-5d84-40bf-b5e2-61932abc62f8}</Project>
+      <Name>LoongEgg.LoongCore</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LoongEgg.ViewModels\LoongEgg.ViewModels.csproj">
+      <Project>{9eb92fcb-f960-42f1-810f-f483b19fe3af}</Project>
+      <Name>LoongEgg.ViewModels</Name>
+    </ProjectReference>
     <ProjectReference Include="..\LoongEgg.Views\LoongEgg.Views.csproj">
       <Project>{40468cdc-cb44-49b9-a80d-3e32ca0afb9f}</Project>
       <Name>LoongEgg.Views</Name>
