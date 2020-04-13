@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppConsole", "AppConsole\Ap
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoongEgg.ViewModels.Test", "LoongEgg.ViewModels.Test\LoongEgg.ViewModels.Test.csproj", "{C45B5FCF-702E-4FA3-9504-B79B3141877B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NoMVVM", "NoMVVM\NoMVVM.csproj", "{526EBF2F-3BDC-4C8E-82A0-54CD5108E684}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{C45B5FCF-702E-4FA3-9504-B79B3141877B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C45B5FCF-702E-4FA3-9504-B79B3141877B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C45B5FCF-702E-4FA3-9504-B79B3141877B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{526EBF2F-3BDC-4C8E-82A0-54CD5108E684}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{526EBF2F-3BDC-4C8E-82A0-54CD5108E684}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{526EBF2F-3BDC-4C8E-82A0-54CD5108E684}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{526EBF2F-3BDC-4C8E-82A0-54CD5108E684}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

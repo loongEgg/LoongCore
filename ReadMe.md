@@ -556,3 +556,127 @@ namespace AppConsole
 }
 
 ```
+## 17.没有MVVM
+- ```MainWindow.xaml```前台代码
+```xaml
+<Window
+    x:Class="NoMVVM.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:NoMVVM"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="MainWindow"
+    Width="800"
+    Height="450"
+    FontSize="32"
+    mc:Ignorable="d">
+    <Grid Margin="5">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition Width="AUTO" />
+            <ColumnDefinition />
+            <ColumnDefinition Width="AUTO" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <!--  左侧操作数  -->
+        <TextBox
+            x:Name="left"
+            Grid.Column="0"
+            VerticalAlignment="Center"
+            Text="666" />
+
+        <!--  运算符们  -->
+        <StackPanel
+            Grid.Column="1"
+            VerticalAlignment="Center"
+            ButtonBase.Click="Button_Click">
+            <Button
+                Width="80"
+                Height="80"
+                Margin="5"
+                Content="+" />
+            <Button
+                Width="80"
+                Height="80"
+                Margin="5"
+                Content="-" />
+            <Button
+                Width="80"
+                Height="80"
+                Margin="5"
+                Content="*" />
+            <Button
+                Width="80"
+                Height="80"
+                Margin="5"
+                Content="/" />
+        </StackPanel>
+
+        <!--  右侧操作数  -->
+        <TextBox
+            x:Name="right"
+            Grid.Column="2"
+            VerticalAlignment="Center"
+            Text="999" />
+
+        <!--  =号  -->
+        <Label
+            Grid.Column="3"
+            VerticalAlignment="Center"
+            Content="=" />
+
+        <TextBlock
+            x:Name="answer"
+            Grid.Column="4"
+            VerticalAlignment="Center"
+            Text="Answer" />
+    </Grid>
+</Window>
+
+```
+- ```MainWindow.xaml.cs```后端代码  
+```c#
+using System.Windows;
+using System.Windows.Controls;
+
+namespace NoMVVM
+{
+    /// <summary>
+    /// MainWindow.xaml 的交互逻辑
+    /// </summary>
+    public partial class MainWindow : Window
+    {
+        public MainWindow() {
+            InitializeComponent();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e) {
+
+            if(e.Source is Button btn) {
+                bool isDouble = false;  
+
+                isDouble =  double.TryParse( left.Text, out double leftOpr);
+                if (!isDouble) return;
+
+                isDouble =  double.TryParse( right.Text, out double rightOpr);
+                if (!isDouble) return;
+
+                string opr = btn.Content.ToString();
+
+                switch (opr) {
+                    case "+":answer.Text = (leftOpr + rightOpr).ToString(); break;
+                    case "-":answer.Text = (leftOpr - rightOpr).ToString(); break;
+                    case "*":answer.Text = (leftOpr * rightOpr).ToString(); break;
+                    case "/":answer.Text = (leftOpr / rightOpr).ToString(); break; 
+                    default:
+                        break;
+                }
+            }
+               
+        }
+    }
+}
+
+```
