@@ -13,6 +13,18 @@
     FontSize="52"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
+    <Window.Resources>
+        <Style TargetType="{x:Type Button}">
+            <Setter Property="Width" Value="80" />
+            <Setter Property="Height" Value="80" />
+            <Setter Property="Margin" Value="5" />
+        </Style>
+
+        <Style TargetType="{x:Type TextBox}">
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+    </Window.Resources>
     <Grid Margin="5">
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
@@ -23,55 +35,37 @@
         </Grid.ColumnDefinitions>
 
         <!--  左侧的操作数  -->
-        <TextBox
-            Grid.Column="0"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Center"
-            Text="{Binding Left}" />
+        <TextBox Grid.Column="0" Text="{Binding Left}" />
 
         <!--  运算符们  -->
         <StackPanel Grid.Column="1" VerticalAlignment="Center">
             <Button
-                Width="80"
-                Height="80"
-                Margin="5"
                 Command="{Binding OperationCommand}"
-                CommandParameter="{Binding RelativeSource}"
+                CommandParameter="+"
                 Content="+" />
             <Button
-                Width="80"
-                Height="80"
-                Margin="5"
-
+                Command="{Binding OperationCommand}"
+                CommandParameter="-"
                 Content="-" />
             <Button
-                Width="80"
-                Height="80"
-                Margin="5"
+                Command="{Binding OperationCommand}"
+                CommandParameter="*"
                 Content="*" />
             <Button
-                Width="80"
-                Height="80"
-                Margin="5"
+                Command="{Binding OperationCommand}"
+                CommandParameter="/"
                 Content="/" />
         </StackPanel>
 
         <!--  右侧操作数  -->
-        <TextBox
-            Grid.Column="2"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Center"
-            Text="{Binding Right}" />
+        <TextBox Grid.Column="2" Text="{Binding Right}" />
+
         <Label
             Grid.Column="3"
             VerticalAlignment="Center"
             Content="=" />
 
         <!--  计算结果  -->
-        <TextBox
-            Grid.Column="4"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Center"
-            Text="{Binding Answer}" />
+        <TextBox Grid.Column="4" Text="{Binding Answer}" />
     </Grid>
 </Window>

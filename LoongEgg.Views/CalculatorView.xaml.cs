@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using LoongEgg.ViewModels;
 
 namespace LoongEgg.Views
 {
@@ -8,7 +9,7 @@ namespace LoongEgg.Views
     public partial class CalculatorView : Window
     {
         public CalculatorView() {
-            InitializeComponent();
+            InitializeComponent(); 
         }
     }
 }

@@ -10,14 +10,15 @@ namespace LoongEgg.ViewModels
     /// </summary>
     public class CalculatorViewModel: ViewModelBase
     {
-        /*------------------------------------- Properties --------------------------------------*/        /// <summary>
+        /*------------------------------------- Properties --------------------------------------*/
+        /// <summary>
         /// 左侧操作数
         /// </summary>
         public int Left {
             get => _Left;
             set => SetProperty(ref _Left, value);
         }
-        protected int _Left;
+        private int _Left;
          
         /// <summary>
         /// 右侧操作数
@@ -26,8 +27,8 @@ namespace LoongEgg.ViewModels
             get => _Right;
             set => SetProperty(ref _Right, value);
         }
-        protected int _Right;
-         
+        private int _Right;
+
         /// <summary>
         /// 计算结果
         /// </summary>
@@ -35,12 +36,12 @@ namespace LoongEgg.ViewModels
             get => _Answer;
             set => SetProperty(ref _Answer, value);
         }
-        protected int _Answer;
-
+        private int _Answer;
+         
         /// <summary>
         /// 运算命令
         /// </summary>
-        public ICommand OperationCommand { get; protected set; }
+        public ICommand OperationCommand { get; private set; }
 
         /*------------------------------------- Constructor -------------------------------------*/
         /// <summary>
@@ -49,21 +50,23 @@ namespace LoongEgg.ViewModels
         public CalculatorViewModel() {
             OperationCommand = new DelegateCommand(Operation);
         }
-
-        /*----------------------------------- Private Methods -----------------------------------*/ 
+        
+        /*----------------------------------- Private Methods -----------------------------------*/
         /// <summary>
         /// 运算的具体执行方法
         /// </summary>
         /// <param name="opr"></param>
-        protected void Operation(object opr) {
-            var self = opr as Button;
-            switch (opr.ToString()) {
+        public void Operation(object parameter) {
+            string opr = parameter.ToString();
+
+            switch (opr) {
                 case "+": Answer = Left + Right; break;
                 case "-": Answer = Left - Right; break;
                 case "*": Answer = Left * Right; break;
                 case "/": Answer = Left / Right; break;
-            };
+                default:
+                    break;
+            }
         }
- 
     }
 }

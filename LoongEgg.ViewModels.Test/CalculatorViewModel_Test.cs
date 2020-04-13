@@ -14,31 +14,27 @@ namespace LoongEgg.ViewModels.Test
         public void Operation_Add() {
             var calc = new CalculatorViewModel
             {
-                Left = 99,
-                Right = 66
+                Left = 666,
+                Right = 123
             };
-
             calc.OperationCommand.Execute("+");
-
-            Assert.AreEqual(99 + 66, calc.Answer);
+            Assert.AreEqual(666 + 123, calc.Answer);
         }
 
         /// <summary>
         /// 减法运算
         /// </summary>
-        [TestMethod]
+         [TestMethod]
         public void Operation_Sub() {
             var calc = new CalculatorViewModel
             {
-                Left = 99,
-                Right = 66
+                Left = 666,
+                Right = 123
             };
-
             calc.OperationCommand.Execute("-");
-
-            Assert.AreEqual(99 - 66, calc.Answer);
+            Assert.AreEqual(666 - 123, calc.Answer);
         }
-
+         
         /// <summary>
         /// 乘法运算
         /// </summary>
