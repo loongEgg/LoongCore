@@ -19,7 +19,7 @@ namespace LoongEgg.LoongCore.Test
         }
         
         // TODO: 14-3设计测试类People
-        public class People: ViewModelBase
+        public class People: BaseViewModel
         {
 
             public string FamilyName {

@@ -8,7 +8,7 @@ namespace LoongEgg.ViewModels
     /// <summary>
     /// 计算器的ViewModel
     /// </summary>
-    public class CalculatorViewModel: ViewModelBase
+    public class CalculatorViewModel: BaseViewModel
     {
         /*------------------------------------- Properties --------------------------------------*/
         /// <summary>

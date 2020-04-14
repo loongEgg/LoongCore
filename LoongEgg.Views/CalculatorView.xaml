@@ -14,6 +14,9 @@
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
     <Window.Resources>
+        <!--  无聊的一般方法：在这里还要定义一次  -->
+        <local:IntToBrushConverter x:Key="intToBrushConverter" />
+
         <Style TargetType="{x:Type Button}">
             <Setter Property="Width" Value="80" />
             <Setter Property="Height" Value="80" />
@@ -34,8 +37,11 @@
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
-        <!--  左侧的操作数  -->
-        <TextBox Grid.Column="0" Text="{Binding Left}" />
+        <!--  左侧的操作数，不要使用下面的值转换器示例  -->
+        <TextBox
+            Grid.Column="0"
+            Foreground="{Binding Left, Converter={StaticResource intToBrushConverter}}"
+            Text="{Binding Left}" />
 
         <!--  运算符们  -->
         <StackPanel Grid.Column="1" VerticalAlignment="Center">
@@ -57,8 +63,11 @@
                 Content="/" />
         </StackPanel>
 
-        <!--  右侧操作数  -->
-        <TextBox Grid.Column="2" Text="{Binding Right}" />
+        <!--  右侧操作数, 注意下面简单的值转换器使用  -->
+        <TextBox
+            Grid.Column="2"
+            Background="{Binding Right, Converter={local:AdvanceIntToBrushConverter}}"
+            Text="{Binding Right}" />
 
         <Label
             Grid.Column="3"

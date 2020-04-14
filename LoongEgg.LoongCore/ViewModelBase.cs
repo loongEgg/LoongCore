@@ -18,5 +18,5 @@ namespace LoongEgg.LoongCore
     /// <summary>
     /// ViewModel们继承于此
     /// </summary>
-    public abstract class ViewModelBase : ObservableObject { }
+    public abstract class BaseViewModel : ObservableObject { }
 }
