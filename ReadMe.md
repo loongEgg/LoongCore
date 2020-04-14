@@ -2,6 +2,7 @@
 >最好的深入了解，动手实践
 
 [TOC]   
+
 个人手撸, 并通过单元测试来了解MVVM框架的内涵
 
 ## 12.Abstract和单元测试初体验
@@ -812,5 +813,145 @@ namespace LoongEgg.LoongCore.Test
         }
     }
 }
+
+```
+## 19.ViewModel和View的会师，Binding前建议必看这个视频
+https://www.bilibili.com/video/BV1ci4y1t7D6/
+
+### KeyPoint
+- 在控制台启动WPF并设置DataContext为你的ViewModel
+- DesignModel继承ViewModel但因为有类型为自己的静态属性，可以设计时绑定，减小出错概率
+- 命令的绑定不要忘记绑定CommandParameter(如果需要)
+
+### 1.初始化ViewModel并注入View(依赖注入)
+```c#
+using LoongEgg.ViewModels;
+using LoongEgg.Views;
+using System;
+using System.Windows;
+
+namespace AppConsole
+{
+    class Program
+    {
+        [STAThread]
+        static void Main(string[] args) {
+
+            // TODO: 19-1 初始化ViewModel并注入View
+            // 初始化一个ViewModel并设置一些初始值以示和DesignModel不一样
+            CalculatorViewModel viewModel = new CalculatorViewModel { Left = 111, Right = 222, Answer = 333 };
+
+            // 将ViewModel赋值给View的DataContext
+            CalculatorView view = new CalculatorView { DataContext = viewModel };
+
+            Application app = new Application();
+            app.Run(view);
+        }
+    }
+}
+```
+
+### 2.创建一个DesignModel以方便设计时绑定
+```c#
+using LoongEgg.ViewModels;
+
+namespace LoongEgg.Views
+{
+    /*
+	| 
+	| WeChat: InnerGeek
+	| LoongEgg@163.com 
+	|
+	*/
+    // TODO: 19-2 创建一个DesignModel以方便设计时绑定
+    public class CalculatorDesignModel: CalculatorViewModel
+    {
+        public static CalculatorDesignModel Instance => _Instance ?? (_Instance = new CalculatorDesignModel());
+        private static CalculatorDesignModel _Instance;
+
+        public CalculatorDesignModel() : base() {
+            Left = 999;
+            Right = 666;
+            Answer = 233;
+        }
+    }
+}
+```
+
+### 3.完成View和ViewModel在Xaml中的绑定
+**不要忘了设置设计时DataContext**```d:DataContext="{x:Static local:CalculatorDesignModel.Instance}"```
+**Binding你会发现，哦哟，有语法提示了**
+```xml
+<Window
+    x:Class="LoongEgg.Views.CalculatorView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:LoongEgg.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="clr-namespace:LoongEgg.ViewModels;assembly=LoongEgg.ViewModels"
+    Title="Calculator View - 1st MVVM Application"
+    Width="800"
+    Height="450"
+    d:DataContext="{x:Static local:CalculatorDesignModel.Instance}"
+    FontSize="52"
+    WindowStartupLocation="CenterScreen"
+    mc:Ignorable="d">
+    <Window.Resources>
+        <Style TargetType="{x:Type Button}">
+            <Setter Property="Width" Value="80" />
+            <Setter Property="Height" Value="80" />
+            <Setter Property="Margin" Value="5" />
+        </Style>
+
+        <Style TargetType="{x:Type TextBox}">
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+    </Window.Resources>
+    <Grid Margin="5">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition />
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <!--  左侧的操作数  -->
+        <TextBox Grid.Column="0" Text="{Binding Left}" />
+
+        <!--  运算符们  -->
+        <StackPanel Grid.Column="1" VerticalAlignment="Center">
+            <Button
+                Command="{Binding OperationCommand}"
+                CommandParameter="+"
+                Content="+" />
+            <Button
+                Command="{Binding OperationCommand}"
+                CommandParameter="-"
+                Content="-" />
+            <Button
+                Command="{Binding OperationCommand}"
+                CommandParameter="*"
+                Content="*" />
+            <Button
+                Command="{Binding OperationCommand}"
+                CommandParameter="/"
+                Content="/" />
+        </StackPanel>
+
+        <!--  右侧操作数  -->
+        <TextBox Grid.Column="2" Text="{Binding Right}" />
+
+        <Label
+            Grid.Column="3"
+            VerticalAlignment="Center"
+            Content="=" />
+
+        <!--  计算结果  -->
+        <TextBox Grid.Column="4" Text="{Binding Answer}" />
+    </Grid>
+</Window>
 
 ```

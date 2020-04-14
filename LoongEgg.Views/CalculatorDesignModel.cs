@@ -8,6 +8,7 @@ namespace LoongEgg.Views
 	| LoongEgg@163.com 
 	|
 	*/
+    // TODO: 19-2 创建一个DesignModel以方便设计时绑定
     public class CalculatorDesignModel: CalculatorViewModel
     {
         public static CalculatorDesignModel Instance => _Instance ?? (_Instance = new CalculatorDesignModel());
