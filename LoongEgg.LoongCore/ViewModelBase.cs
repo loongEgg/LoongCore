@@ -17,6 +17,6 @@ namespace LoongEgg.LoongCore
     // TODO: 14-2 设计ViewModel的基类
     /// <summary>
     /// ViewModel们继承于此
-    /// </summary>
+    /// </summary> 
     public abstract class BaseViewModel : ObservableObject { }
 }

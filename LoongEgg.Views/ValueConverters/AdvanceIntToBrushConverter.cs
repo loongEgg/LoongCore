@@ -17,15 +17,15 @@ namespace LoongEgg.Views
     /// 最简单的值转换器实现
     /// </summary>
     public class AdvanceIntToBrushConverter : BaseValueConverter<AdvanceIntToBrushConverter>
-    { 
+    {
         /*------------------------------------ Public Methods -----------------------------------*/
-         
         public override object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
             if (value == null) {
                 return null;
-            }else if( (int) value < 18) {
+            } else if( (int)value < 18) {
                 return Brushes.Green;
-            }else {
+            }
+            else {
                 return Brushes.Yellow;
             }
         }

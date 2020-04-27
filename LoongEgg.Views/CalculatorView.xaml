@@ -66,7 +66,7 @@
         <!--  右侧操作数, 注意下面简单的值转换器使用  -->
         <TextBox
             Grid.Column="2"
-            Background="{Binding Right, Converter={local:AdvanceIntToBrushConverter}}"
+            Background="{Binding Right, Converter={local:AdvanceIntToBrushConverter}, UpdateSourceTrigger=PropertyChanged}"
             Text="{Binding Right}" />
 
         <Label

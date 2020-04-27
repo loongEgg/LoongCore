@@ -36,8 +36,7 @@ namespace LoongEgg.LoongCore
         public RelayCommand(Action action) {
             _Execute = action ?? throw new ArgumentNullException("action");
         }
-
-
+         
         /*------------------------------------ Public Methods -----------------------------------*/
         /// <summary>
         /// 永远可以执行
